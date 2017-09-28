@@ -16,3 +16,6 @@ BSStrikeFromDelta(spot, time, 0.0, sigma, 0.25, 'C')
 require(fOptions)
 GBSGreeks(Selection = "delta", TypeFlag = "c", S = spot, X = BSStrikeFromDelta(spot, time, 0.0, sigma, 0.25, 'C'), Time = time, r = 0, b = 0, sigma = sigma)
 GBSGreeks(Selection = "delta", TypeFlag = "p", S = spot, X = BSStrikeFromDelta(spot, time, 0.0, sigma, -0.25, 'P'), Time = time, r = 0, b = 0, sigma = sigma)
+
+getwd()
+source('test.R')
