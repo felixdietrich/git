@@ -1,54 +1,8 @@
 # loadFunctions('fritz')
-# source('~/Dropbox/newdiss/general/functions.R')
-print(c('Plot','Data','Holidays','Outliers','IB','OutliersOLD'))
+# source('~/Dropbox/newdiss/git/functions.R')
+print(c('Data','Holidays','Outliers','IB','OutliersOLD'))
 loadFunctions <- function(x)
 {
-  ### Plot ----
-  if(sum(x %in% 'Plot')>=1) {
-    plot_wo_weekend <- function(x,xblocks=TRUE,main=NULL,mtext=NULL) { 
-    library(stringr) # also check formatC sprintf
-    z0 <- zoo(coredata(x)) 
-    plot(z0, type='n', xaxt = "n", xlab='', ylab='', main=main) 
-    mtext(mtext)
-    # testx <- x['T9:30/T16:00']
-    UShours <- c(paste0(str_pad(9, 2, pad = "0"),c(30:59)),
-                 paste0(rep(10:15, each=60),str_pad(seq(0,59,by=1), 2, pad = "0")),
-                 '1600')
-    if(xblocks==TRUE) xblocks(zoo(format(index(test), '%H%M') %in% UShours, index(z0)), col='lightgray')
-    lines(z0)
-    axis(1, time(z0), lab = format(time(x), "%d\n%Hh"), cex.axis = .7) 
-    }
-    
-    facet_plot <- function(x,y=NULL,option='base',main=NULL,timex='time',valuex='value') { # 
-      if(!is.null(y)) x <- cbind(x,y)
-      if(option=='top') {
-        print('option: top')
-        # require(ggplot2)
-        # require(reshape2)
-        # localenv <- environment()
-        print( ggplot( melt(data.frame(time=index(x), x), id.vars="time"), aes(time, value)) + # environment = localenv
-          geom_line() + labs(x = NULL, y = NULL, title = main) +
-          facet_wrap( ~ variable, scale = "free_y", ncol=1) + theme(plot.title = element_text(hjust = 0.5)) )
-        # print( ggplot( asd, aes_string(timex, valuex)) + # environment = localenv
-        #   geom_line() + labs(x = NULL, y = NULL, title = main) +
-        #   facet_wrap( ~ variable, scale = "free_y", ncol=1) + theme(plot.title = element_text(hjust = 0.5)) )
-      }
-      if(option=='right') {
-        print('option: right')
-        # require(ggplot2)
-        # require(reshape2)
-        print( ggplot( melt(data.frame(time=time(x), x), id.vars="time"), aes(time, value)) + 
-          geom_line() + labs(x = NULL, y = NULL, title = main) +
-          facet_grid(variable ~ ., scale = "free_y") + theme(plot.title = element_text(hjust = 0.5)) )
-      }
-      if(option=='base') {
-        print('option: base')
-        require(timeSeries)
-        plot(as.timeSeries(x), format = "%B %Y", xlab='', main=main)
-      }
-    }
-  }
-  
   ### Data ----
   if(sum(x %in% 'Data')>=1) {
     
