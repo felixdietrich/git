@@ -1,6 +1,7 @@
 ### Plot ----
+.pE <- new.env()
 
-doubleplot <- function(x,y=NULL,main='',omit=FALSE,align=TRUE,
+.pE$doubleplot <- function(x,y=NULL,main='',omit=FALSE,align=TRUE,
                        col1='black',col2='red',cex.main=NULL,legend='false',xaxt='t',polygon=FALSE) { # y=NULL new
   if (is.null(y)) xx=as.zoo(x)
   if (class(index(x))!=class(index(y))) {
@@ -24,7 +25,7 @@ doubleplot <- function(x,y=NULL,main='',omit=FALSE,align=TRUE,
     lines(xx[,2], col=col2) }
 }
 
-facet_plot <- function(x,y=NULL,option='base',main=NULL,timex='time',valuex='value') { # 
+.pE$facet_plot <- function(x,y=NULL,option='base',main=NULL,timex='time',valuex='value') { # 
   if(!is.null(y)) x <- cbind(x,y)
   if(option=='top') {
     print('option: top')
@@ -53,7 +54,7 @@ facet_plot <- function(x,y=NULL,option='base',main=NULL,timex='time',valuex='val
   }
 }
 
-facetplot <- function(df,colnames=NULL) { ### OLD VERSION
+.pE$facetplot <- function(df,colnames=NULL) { ### OLD VERSION
   # https://learnr.wordpress.com/2009/05/18/ggplot2-three-variable-time-series-panel-chart/
   require(ggplot2)
   require(reshape2)
@@ -64,7 +65,7 @@ facetplot <- function(df,colnames=NULL) { ### OLD VERSION
     facet_wrap(~ variable, scales = 'free_y', ncol = 1)
 }
 
-smoothplot <- function(x, main=NULL, mtext=NULL, colors=seq(1:10), lty=NULL, lwd=NULL,
+.pE$smoothplot <- function(x, main=NULL, mtext=NULL, colors=seq(1:10), lty=NULL, lwd=NULL,
                       legend='FALSE', colnames='FALSE', cex.legend=1) {
   xx<-na.omit(x)
   # IF NCOL 1 plot(zoo(smooth.spline(as.timeSeries(xx))$y, order.by = index(xx)), ylab='', xlab='', main=y)
@@ -76,7 +77,7 @@ smoothplot <- function(x, main=NULL, mtext=NULL, colors=seq(1:10), lty=NULL, lwd
   mtext(mtext)
   if(legend!='FALSE') legend(legend, colnames(xxx), col=colors, lty=1, cex=cex.legend) }
 
-multiplot <- function(x,smooth=NULL,main='',col=c(1:10),cex.main=NULL,legend='false') { 
+.pE$multiplot <- function(x,smooth=NULL,main='',col=c(1:10),cex.main=NULL,legend='false') { 
   if(!is.null(smooth)) { 
     require(timeSeries)
     xx<-na.omit(x)
@@ -88,14 +89,14 @@ multiplot <- function(x,smooth=NULL,main='',col=c(1:10),cex.main=NULL,legend='fa
     par(new = T) } 
 }
 
-add_legend <- function(...,bty='n',marleft=0,marbottom=0) { # http://stackoverflow.com/questions/3932038/plot-a-legend-outside-of-the-plotting-area-in-base-graphics
+.pE$add_legend <- function(...,bty='n',marleft=0,marbottom=0) { # http://stackoverflow.com/questions/3932038/plot-a-legend-outside-of-the-plotting-area-in-base-graphics
   # opar <- par(fig=c(0, 1, 0, 1), oma=c(0, 0, 0, 0), mar=c(0, 0, 0, 0), new=TRUE)
   opar <- par(fig=c(0, 1, 0, 1), oma=c(0, 0, 0, 0), mar=c(marbottom, marleft, 0, 0), new=TRUE) # The default fig setting is (0, 1, 0, 1) and uses the entire device space.
   on.exit(par(opar)) # bottom, left, top, and right
   plot(0, 0, type='n', bty='n', xaxt='n', yaxt='n')
   legend(...,bty=bty) } # horiz=TRUE
 
-fplot <- function(x,col='rainbow',legend='totalbottom',main=NULL,mtext=NULL,save=NULL,lty=NULL,lwd=NULL) { # oder multiplot?
+.pE$fplot <- function(x,col='rainbow',legend='totalbottom',main=NULL,mtext=NULL,save=NULL,lty=NULL,lwd=NULL) { # oder multiplot?
   color <- col
   if(col=='rainbow') color <- palette(rainbow(6)) # palette1 <- distinctColorPalette(ncol(x)) 
   cei1=ceiling(ncol(x)/6); cei2=ceiling(ncol(x)/cei1); 
@@ -111,7 +112,7 @@ fplot <- function(x,col='rainbow',legend='totalbottom',main=NULL,mtext=NULL,save
   if(!is.null(save)) dev.off() 
 }
 
-plot_wo_weekend <- function(x,xblocks=TRUE,main=NULL,mtext=NULL) { 
+.pE$plot_wo_weekend <- function(x,xblocks=TRUE,main=NULL,mtext=NULL) { 
   library(stringr) # also check formatC sprintf
   z0 <- zoo(coredata(x)) 
   plot(z0, type='n', xaxt = "n", xlab='', ylab='', main=main) 
@@ -124,3 +125,5 @@ plot_wo_weekend <- function(x,xblocks=TRUE,main=NULL,mtext=NULL) {
   lines(z0)
   axis(1, time(z0), lab = format(time(x), "%d\n%Hh"), cex.axis = .7) 
 }
+
+attach(.pE,name="plotting",pos=-1)
