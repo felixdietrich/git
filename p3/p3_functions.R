@@ -1,4 +1,5 @@
 # source('p3/BSfromDelta.R')
+require(robustbase)
 
 ### STRANGLES ----
 fixed_delta = function(data, type='delta', num) {
