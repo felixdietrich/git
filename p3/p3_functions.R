@@ -160,10 +160,16 @@ generate_new2 = function(x) {
   return(res)
 }
 
-plot_against_realized = function(xxx) {
+plot_against_realized = function(xxx,type='Volatility') {
 x <- as.numeric(xxx$Vol)
+if(type=='Move') {
+y <- as.numeric(xxx$w_abs_ahead)
+plot(x,y, col=rgb(0,0,255,50,maxColorValue=255), pch=16, xlab='Implied Volatility', ylab='Realized Move (ahead)')
+}
+if(type=='Volatility') {
 y <- as.numeric(xxx$Real_a)
 plot(x,y, col=rgb(0,0,255,50,maxColorValue=255), pch=16, xlab='Implied Volatility', ylab='Realized Volatility (ahead)')
+}
 abline(lm(y~x), col="red")
 abline(ltsReg(y~x), col="green") # Least Trimmed Squares Robust (High Breakdown) Regression  })
 legend('topleft',c('Linear','Least Trimmed Squares Robust'),lty=c(1,1),col=c('red','green'),cex=0.8)
