@@ -1,4 +1,4 @@
-source('p3/BSfromDelta.R')
+# source('p3/BSfromDelta.R')
 
 ### STRANGLES ----
 fixed_delta = function(data, type='delta', num) {
