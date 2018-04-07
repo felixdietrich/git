@@ -29,6 +29,9 @@ datax <- list(na.locf(cbind(xxx[,'AUD'],volatilities[['AUDUSD']][,2])['2000/2016
              na.locf(cbind(xxx[,'EUR'],volatilities[['EURUSD']][,2])['2000/2016']),
              na.locf(cbind(xxx[,'CHF'],volatilities[['USDCHF']][,2])['2000/2016']),
              na.locf(cbind(xxx[,'JPY'],volatilities[['USDJPY']][,2])['2000/2016']))
+
+data <- create_data(source='datastream',order='vol_first',period='2000/2016')
+
 names(datax) <- c('AUDUSD','NZDUSD','USDCAD','EURUSD','USDCHF','USDJPY')
 true[[1]]
 timedefinition <- 5/252
@@ -59,10 +62,10 @@ source('CustomFunc.R')
 total <- x[[1]][,'total.adj']+x[[2]][,'total.adj']+x[[3]][,'total.adj']+x[[4]][,'total.adj']+x[[5]][,'total.adj']+x[[6]][,'total.adj']
 plot.zoo(cumsum(total))
 sr_freq(total)
-xx <- cbind(x[['AUDUSD']][,'total'],x[['NZDUSD']][,'total'],x[['USDCAD']][,'total'],x[['EURUSD']][,'total'],x[['USDCHF']][,'total'],x[['USDJPY']][,'total'])
+# xx <- cbind(x[['AUDUSD']][,'total'],x[['NZDUSD']][,'total'],x[['USDCAD']][,'total'],x[['EURUSD']][,'total'],x[['USDCHF']][,'total'],x[['USDJPY']][,'total'])
 xx <- cbind(x[['AUDUSD']][,'total.adj'],x[['NZDUSD']][,'total.adj'],x[['USDCAD']][,'total.adj'],x[['EURUSD']][,'total.adj'],x[['USDCHF']][,'total.adj'],x[['USDJPY']][,'total.adj'])
-xx <- cbind(jojo[['AUDUSD']][,'totl']/1000,jojo[['NZDUSD']][,'totl']/1000,jojo[['USDCAD']][,'totl']/1000,jojo[['EURUSD']][,'totl']/1000,jojo[['USDCHF']][,'totl']/1000,jojo[['USDJPY']][,'totl']/1000)
-xx <- cbind(jojo[['AUDUSD']][,'l']/1000,jojo[['NZDUSD']][,'l']/1000,jojo[['USDCAD']][,'l']/1000,jojo[['EURUSD']][,'l']/1000,jojo[['USDCHF']][,'l']/1000,jojo[['USDJPY']][,'l']/1000)
+# xx <- cbind(jojo[['AUDUSD']][,'totl']/1000,jojo[['NZDUSD']][,'totl']/1000,jojo[['USDCAD']][,'totl']/1000,jojo[['EURUSD']][,'totl']/1000,jojo[['USDCHF']][,'totl']/1000,jojo[['USDJPY']][,'totl']/1000)
+# xx <- cbind(jojo[['AUDUSD']][,'l']/1000,jojo[['NZDUSD']][,'l']/1000,jojo[['USDCAD']][,'l']/1000,jojo[['EURUSD']][,'l']/1000,jojo[['USDCHF']][,'l']/1000,jojo[['USDJPY']][,'l']/1000)
 colnames(xx) <- c('AUDUSD','NZDUSD','USDCAD','EURUSD','USDCHF','USDJPY')
 xx$all <- rowSums(xx)
 asd <- sapply(xx, function(x) round(multi.sapply(x, mean_freq, sd_freq, SharpeRatio.annualized.arith, skewness, kurtosis, min, max, count_negative, nrow, sum), digits=4))
